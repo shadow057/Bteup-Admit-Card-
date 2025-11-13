@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BTEUP - Admit / Verification Card</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f5f7ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      border-radius: 14px;
+      max-width: 420px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(2,8,23,0.08);
+      background: #fff;
+    }
+    .form-control {
+      text-align: center;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 15px;
+    }
+    .btn-primary {
+      background-color: #001133;
+      border: none;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .btn-primary:hover { background-color: #001f66; }
+    .muted { color: #666; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="text-center mb-3">
+      <h4 class="mb-1" style="color:#001133">BTEUP - Student Card</h4>
+      <div class="muted">Admit Card या Verification Card खोलें</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="enroll" class="form-label">Enrollment Number</label>
+      <input id="enroll" class="form-control" type="text" placeholder="उदा: E24444735500032" />
+      <div class="form-text text-center muted">Exact Enrollment number डालें — बिना स्पेस</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="typeSelect" class="form-label">Select Card Type</label>
+      <select id="typeSelect" class="form-select">
+        <option value="admit">Admit Card</option>
+        <option value="verify">Verification Card</option>
+      </select>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" id="openBtn">Show Selected Card</button>
+    </div>
+
+    <div class="text-center mt-3 muted">
+      <small>यह page केवल URL खोलता है — actual pages BTEUP की वेबसाइट पर खुलेँगे।</small>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (optional for components) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById('openBtn').addEventListener('click', function () {
+      const enroll = document.getElementById('enroll').value.trim();
+      const type = document.getElementById('typeSelect').value;
+
+      if (!enroll) {
+        alert('कृपया Enrollment Number दर्ज करें!');
+        return;
+      }
+
+      // Sanitize-ish: encode to be safe in URL (in case of special chars)
+      const e = encodeURIComponent(enroll);
+
+      let url = '';
+      if (type === 'admit') {
+        url = 'https://bteup.ac.in/ESeva/Student/AdmitCard.aspx?EnrollNumber=' + e;
+      } else if (type === 'verify') {
+        url = 'https://bteup.ac.in/Eseva/Student/VerificationCard.aspx?EnrollNumber=' + e;
+      }
+
+      // Open in new tab
+      window.open(url, '_blank');
+    });
+
+    // Optional: press Enter in input to trigger button
+    document.getElementById('enroll').addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        document.getElementById('openBtn').click();
+      }
+    });
+  </script>
+</body>
+</html>
